@@ -1,6 +1,12 @@
+'use client'
+
 import Link from "next/link"
+import { useRouter } from "next/router"
 
 export default function Campeao() {
+
+    const { qtdParticipantes, teste } = useRouter()?.query
+
     let valor1 = "Leonardo"
     let valor2 = "Leonardo 2"
     let valor3 = "Leonardo 3"
@@ -32,7 +38,7 @@ export default function Campeao() {
             </div>
             <Link
                 className="botao h-16 w-60 rounded-3xl m-3 flex justify-center items-center font-medium text-2xl"
-                href={"/paginaPrincipal/principal"}
+                href={`/paginaPrincipal/${qtdParticipantes}/principal`} 
             >
             Voltar
             </Link>

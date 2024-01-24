@@ -22,7 +22,7 @@ export default function TelaInicial() {
           className="botao w-64 h-14 rounded-lg text-xl flex justify-center items-center"
           href={`/paginaPrincipal/${quantidadeParticipantes}/principal`} 
         >
-          Comecar
+          Começar Rodízio
         </Link>
        
       </div>
