@@ -1,7 +1,6 @@
-'use client'
-
 import Link from "next/link"
 import { useRouter } from "next/router"
+import Image from "next/image";
 
 export default function Campeao() {
 
@@ -15,12 +14,15 @@ export default function Campeao() {
     let pizza3 = "25"
 
     return (
-        <main className={`flex justify-between flex-col h-screen bg-branco
+        <main className={`flex justify-between flex-col h-screen bg-white
         text-black font-bold items-center 
         `}>
             <div className="flex items-center flex-col">
                 <h1 className="text-4xl my-7 ">O campeão</h1>
-                <div className="w-72 h-64 bg-cyan-300"></div>
+                <img
+                    className="w-80 h-80"
+                    src="/images/trofeu.png"
+                />
             </div>
             <div className="flex flex-col items-center">
                 <h1 className="text-center text-4xl truncate w-64">{valor1}</h1>
@@ -38,9 +40,9 @@ export default function Campeao() {
             </div>
             <Link
                 className="botao h-16 w-60 rounded-3xl m-3 flex justify-center items-center font-medium text-2xl"
-                href={`/paginaPrincipal/${qtdParticipantes}/principal`} 
+                href={`/paginaPrincipal/${qtdParticipantes}/principal`}
             >
-            Voltar
+                Voltar
             </Link>
         </main>
     )

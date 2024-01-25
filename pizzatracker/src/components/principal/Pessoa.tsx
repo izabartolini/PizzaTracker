@@ -1,11 +1,8 @@
 import { useState } from "react";
 import Contador from "./Contador";
+import { PessoaEntidade } from "@/pages/paginaPrincipal/[qtdParticipantes]/principal";
 
-interface NomeProps {
-    nome: string
-}
-export default function Pessoa(props: NomeProps) {
-    const [nome, setNomeParticipante] = useState(props.nome);
+export default function Pessoa({pessoa, onChange }: { pessoa: PessoaEntidade, onChange: Function }) {
 
     return (
         <div className={`
@@ -18,11 +15,15 @@ export default function Pessoa(props: NomeProps) {
             `}>
                 <input
                     type="text"
-                    onChange={(e: any) => setNomeParticipante(e.target.value)}
-                    value={nome}
+                    onChange={(e: any) => {
+                        onChange({...pessoa, nome: e.target.value})
+                    }}
+                    value={pessoa.nome}
                     className="text-xl font-bold bg-amareloclaro rounded-md w-52 border-2 border-black mt-1 truncate text-center"
                 />
-                <Contador></Contador>
+                <Contador value={pessoa.qtdComeu || 0} onChange={(novoDadoQtdComeu: number) => {
+                    onChange({...pessoa, qtdComeu: novoDadoQtdComeu});
+                }} ></Contador>
             </div>
         </div>
     )
