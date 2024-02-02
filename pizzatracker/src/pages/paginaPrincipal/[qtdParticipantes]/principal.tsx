@@ -2,10 +2,11 @@ import Mostrar from "@/components/principal/Mostrar";
 import Nav from "@/components/geral/Nav";
 import Adicionar from "@/components/principal/Adicionar";
 import { useRouter } from "next/router";
-import { useEffect, useMemo, useState } from "react";
+import { ReactElement, useEffect, useMemo, useState } from "react";
 import Pessoa from "@/components/principal/Pessoa";
 
 export class PessoaEntidade {
+    
     public nome?: string = "";
     public qtdComeu: number = 0;
 
@@ -15,84 +16,75 @@ export class PessoaEntidade {
     }
 }
 
-export default function PaginaPrinciapal() {
+export default function PaginaPrinciapal<T>(key: string, fallbackValue: T) {
 
     const router = useRouter();
 
-    const [ pessoas, setPessoas ] = useState<PessoaEntidade[]>([]);
-
-    // const statusCompeticao = useMemo(() => {
-    //     const pessoasQueComerao = pessoas.filter(pessoa => (pessoa?.qtdComeu || 0) > 0);
-    //     if(pessoasQueComerao.length == 0) {
-    //         return {
-    //             status: 'NINGUEM'
-    //         };
-    //     }
-    //     const candidatoAGanhador = pessoasQueComerao.sort((a,b) => a.qtdComeu - b.qtdComeu)[0];
-    //     const pessoasQueComeramAMesmaQuantidadeDoCandidatoGanhador: PessoaEntidade[] = pessoasQueComerao.filter(pessoa => pessoa.qtdComeu == candidatoAGanhador.qtdComeu && pessoa.nome != candidatoAGanhador.nome)
-
-    //     if(pessoasQueComeramAMesmaQuantidadeDoCandidatoGanhador.length > 0) {
-    //         pessoasQueComeramAMesmaQuantidadeDoCandidatoGanhador.push(candidatoAGanhador)
-    //         return {
-    //             status: 'EMPATE',
-    //             pessoas: pessoasQueComeramAMesmaQuantidadeDoCandidatoGanhador
-    //         }
-    //     }
-
-    //     return { status: 'GANHADOR', pessoas :candidatoAGanhador}
-
-    // }, [ pessoas ])
+    const [pessoas, setPessoas] = useState<PessoaEntidade[]>([]);
 
     const statusCompeticao = useMemo(() => {
         const pessoasQueComerao = pessoas.filter(pessoa => (pessoa?.qtdComeu || 0) > 0);
-    
+
         if (pessoasQueComerao.length === 0) {
             return {
                 status: 'NINGUEM'
             };
         }
-    
+
         const candidatoAGanhador = pessoasQueComerao.reduce((a, b) => (a.qtdComeu || 0) > (b.qtdComeu || 0) ? a : b);
         const pessoasQueComeramAMesmaQuantidadeDoCandidatoGanhador = pessoasQueComerao.filter(pessoa => pessoa.qtdComeu === candidatoAGanhador.qtdComeu && pessoa.nome !== candidatoAGanhador.nome);
-    
-        if (pessoasQueComeramAMesmaQuantidadeDoCandidatoGanhador.length > 0) {
-            return {
-                status: 'EMPATE',
-                pessoas: [...pessoasQueComeramAMesmaQuantidadeDoCandidatoGanhador, candidatoAGanhador]
-            };
-        }
-    
-        return {
-            status: 'GANHADOR',
-            pessoas: [candidatoAGanhador]
+        const pessoasEmpatadasQueNaoCompetemComOGanhador = pessoasQueComerao.filter(pessoa => pessoa.qtdComeu === pessoa.qtdComeu && pessoa.nome !== candidatoAGanhador.nome);;
+
+        const objetoCampeao2 = {
+            status: 'EMPATE',
+            pessoas: [...pessoasQueComeramAMesmaQuantidadeDoCandidatoGanhador, candidatoAGanhador]
         };
-    
+        if (pessoasQueComeramAMesmaQuantidadeDoCandidatoGanhador.length > 0) {
+            localStorage.setItem("campeao", JSON.stringify(objetoCampeao2))
+        }
+
+        const objetoCampeao = {
+            status: 'GANHADOR',
+            pessoas: [candidatoAGanhador, pessoasEmpatadasQueNaoCompetemComOGanhador]
+            // pessoas: [pessoasQueComeramAMesmaQuantidadeDoCandidatoGanhador]
+        };
+        if (pessoasQueComeramAMesmaQuantidadeDoCandidatoGanhador.length <= 0) {
+            localStorage.setItem("campeao", JSON.stringify(objetoCampeao))
+        }
+
+
+        return objetoCampeao;
+
     }, [pessoas]);
-    
+
 
     useEffect(() => {
         setPessoas(
-            Array(Number(router.query.qtdParticipantes)).fill('').map((_,idx: number) => new PessoaEntidade(`Pessoa ${idx+1}`))
+            Array(Number(router.query.qtdParticipantes)).fill('').map((_, idx: number) => new PessoaEntidade(`Pessoa ${idx + 1}`))
         );
     }, []);
 
-    return (
-        <div className="flex flex-col justify-between min-h-screen gap-5 bg-branco overflow-y-auto text-black">
-            <Nav></Nav>
 
-            {JSON.stringify(pessoas)}
-<br/>
-            GANHADOR: {JSON.stringify(statusCompeticao)}
+    useEffect(() => {
+        let value
+        value = localStorage.getItem("campeao") || ""
+    }, [])
 
-            {pessoas.map((pessoa, idx) => {
-                return <Pessoa pessoa={pessoa} onChange={(novosDadosPessoa: PessoaEntidade) => {
-                    pessoas[idx] = novosDadosPessoa;
-                    setPessoas([...pessoas]);
-                }} ></Pessoa>;
-            })}
+        return (
+            <div className="flex flex-col justify-between min-h-screen gap-5 bg-branco overflow-y-auto text-black">
+                <Nav></Nav>
+                {/* {JSON.stringify(pessoas)} */}
+                {/* GANHADOR: {JSON.stringify(statusCompeticao)} */}
 
-            <Adicionar></Adicionar>
-            <Mostrar participantes={'a'}></Mostrar>
-        </div>
-    )
-}
+                {pessoas.map((pessoa, idx) => {
+                    return <Pessoa pessoa={pessoa} onChange={(novosDadosPessoa: PessoaEntidade) => {
+                        pessoas[idx] = novosDadosPessoa;
+                        setPessoas([...pessoas]);
+                    }} ></Pessoa>;
+                })}
+
+                <Adicionar></Adicionar>
+                <Mostrar participantes={'a'}></Mostrar>
+            </div>
+        )
+    }
