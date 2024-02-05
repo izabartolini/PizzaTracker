@@ -33,11 +33,13 @@ export default function PaginaPrinciapal<T>(key: string, fallbackValue: T) {
 
         const candidatoAGanhador = pessoasQueComerao.reduce((a, b) => (a.qtdComeu || 0) > (b.qtdComeu || 0) ? a : b);
         const pessoasQueComeramAMesmaQuantidadeDoCandidatoGanhador = pessoasQueComerao.filter(pessoa => pessoa.qtdComeu === candidatoAGanhador.qtdComeu && pessoa.nome !== candidatoAGanhador.nome);
-        const pessoasEmpatadasQueNaoCompetemComOGanhador = pessoasQueComerao.filter(pessoa => pessoa.qtdComeu === pessoa.qtdComeu && pessoa.nome !== candidatoAGanhador.nome);;
+        // const pessoasEmpatadasQueNaoCompetemComOGanhador = pessoasQueComerao.filter(pessoa => pessoa.qtdComeu === pessoa.qtdComeu && pessoa.nome !== candidatoAGanhador.nome);;
+        const pessoasEmpatadasQueNaoCompetemComOGanhador = pessoasQueComerao.filter(pessoa => pessoa.qtdComeu === pessoa.qtdComeu);
 
         const objetoCampeao2 = {
             status: 'EMPATE',
-            pessoas: [...pessoasQueComeramAMesmaQuantidadeDoCandidatoGanhador, candidatoAGanhador]
+            pessoas: [pessoasEmpatadasQueNaoCompetemComOGanhador]
+
         };
         if (pessoasQueComeramAMesmaQuantidadeDoCandidatoGanhador.length > 0) {
             localStorage.setItem("campeao", JSON.stringify(objetoCampeao2))
@@ -45,8 +47,7 @@ export default function PaginaPrinciapal<T>(key: string, fallbackValue: T) {
 
         const objetoCampeao = {
             status: 'GANHADOR',
-            pessoas: [candidatoAGanhador, pessoasEmpatadasQueNaoCompetemComOGanhador]
-            // pessoas: [pessoasQueComeramAMesmaQuantidadeDoCandidatoGanhador]
+            pessoas: [pessoasEmpatadasQueNaoCompetemComOGanhador]
         };
         if (pessoasQueComeramAMesmaQuantidadeDoCandidatoGanhador.length <= 0) {
             localStorage.setItem("campeao", JSON.stringify(objetoCampeao))
