@@ -6,7 +6,7 @@ import { ReactElement, useEffect, useMemo, useState } from "react";
 import Pessoa from "@/components/principal/Pessoa";
 
 export class PessoaEntidade {
-    
+
     public nome?: string = "";
     public qtdComeu: number = 0;
 
@@ -33,12 +33,12 @@ export default function PaginaPrinciapal<T>(key: string, fallbackValue: T) {
 
         const candidatoAGanhador = pessoasQueComerao.reduce((a, b) => (a.qtdComeu || 0) > (b.qtdComeu || 0) ? a : b);
         const pessoasQueComeramAMesmaQuantidadeDoCandidatoGanhador = pessoasQueComerao.filter(pessoa => pessoa.qtdComeu === candidatoAGanhador.qtdComeu && pessoa.nome !== candidatoAGanhador.nome);
-        // const pessoasEmpatadasQueNaoCompetemComOGanhador = pessoasQueComerao.filter(pessoa => pessoa.qtdComeu === pessoa.qtdComeu && pessoa.nome !== candidatoAGanhador.nome);;
-        const pessoasEmpatadasQueNaoCompetemComOGanhador = pessoasQueComerao.filter(pessoa => pessoa.qtdComeu === pessoa.qtdComeu);
+
+
 
         const objetoCampeao2 = {
             status: 'EMPATE',
-            pessoas: [pessoasEmpatadasQueNaoCompetemComOGanhador]
+            pessoas: pessoasQueComerao
 
         };
         if (pessoasQueComeramAMesmaQuantidadeDoCandidatoGanhador.length > 0) {
@@ -47,7 +47,7 @@ export default function PaginaPrinciapal<T>(key: string, fallbackValue: T) {
 
         const objetoCampeao = {
             status: 'GANHADOR',
-            pessoas: [pessoasEmpatadasQueNaoCompetemComOGanhador]
+            pessoas: pessoasQueComerao
         };
         if (pessoasQueComeramAMesmaQuantidadeDoCandidatoGanhador.length <= 0) {
             localStorage.setItem("campeao", JSON.stringify(objetoCampeao))
@@ -71,21 +71,26 @@ export default function PaginaPrinciapal<T>(key: string, fallbackValue: T) {
         value = localStorage.getItem("campeao") || ""
     }, [])
 
-        return (
-            <div className="flex flex-col justify-between min-h-screen gap-5 bg-branco overflow-y-auto text-black">
-                <Nav></Nav>
-                {/* {JSON.stringify(pessoas)} */}
-                {/* GANHADOR: {JSON.stringify(statusCompeticao)} */}
-
-                {pessoas.map((pessoa, idx) => {
-                    return <Pessoa pessoa={pessoa} onChange={(novosDadosPessoa: PessoaEntidade) => {
-                        pessoas[idx] = novosDadosPessoa;
-                        setPessoas([...pessoas]);
-                    }} ></Pessoa>;
-                })}
-
-                <Adicionar></Adicionar>
-                <Mostrar participantes={'a'}></Mostrar>
-            </div>
-        )
+    const onAdicionar = () => {
+        setPessoas([
+            ...pessoas,
+            new PessoaEntidade('Pessoa ' + (pessoas.length + 1))
+        ])
     }
+
+    return (
+        <div className="flex flex-col justify-between min-h-screen gap-5 bg-branco overflow-y-auto text-black">
+            <Nav></Nav>
+
+            {pessoas.map((pessoa, idx) => {
+                return <Pessoa pessoa={pessoa} onChange={(novosDadosPessoa: PessoaEntidade) => {
+                    pessoas[idx] = novosDadosPessoa;
+                    setPessoas([...pessoas]);
+                }} ></Pessoa>;
+            })}
+
+            <Adicionar onClick={onAdicionar} ></Adicionar>
+            <Mostrar participantes={'a'}></Mostrar>
+        </div>
+    )
+}
