@@ -6,13 +6,10 @@ export default function TelaInicial() {
 
   const [quantidadeParticipantes, setQuantidadeParticipantes] = useState("");
 
-
-  
-
   return (
     <div className="flex flex-col  justify-center items-center gap-12 text-center text-black ">
 
-      <h1 className="font-bold text-3xl mt-7">Quantas pessoas participarão do rodizio?</h1>
+      <h1 className="font-bold text-3xl m-7">Quantas pessoas participarão do rodizio?</h1>
 
       <input
         type="number"

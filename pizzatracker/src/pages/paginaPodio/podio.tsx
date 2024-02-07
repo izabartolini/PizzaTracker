@@ -1,6 +1,5 @@
-import Campeao from "@/components/podio/Podio";
-import Nav from "@/components/geral/Nav";
 import { useEffect, useState } from "react";
+import Podio from "@/components/podio/Podio";
 export default function PaginaCampeao() {
 
   const [resultado, setResultado] = useState<any>(null);
@@ -14,9 +13,8 @@ export default function PaginaCampeao() {
   }, [])
 
   return (
-    <div className="flex flex-col  max-h-screen  bg-branco ">
-      <Nav></Nav>
-      {resultado?.pessoas && <Campeao pessoas={resultado.pessoas} />}
+    <div className="flex flex-col  min-h-screen  bg-branco ">
+      {resultado?.pessoas && <Podio pessoas={resultado.pessoas} />}
     </div>
   )
 }

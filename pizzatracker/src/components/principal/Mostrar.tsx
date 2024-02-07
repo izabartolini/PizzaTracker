@@ -13,7 +13,7 @@ export default function Mostrar(props: NomeProps){
         `}>
             <Link
                 className="botao p-4 rounded-3xl text-2xl"
-                href={`/paginaCampeao/campeao`}
+                href={`/paginaPodio/podio`}
             >
             Mostrar ganhador
             </Link>

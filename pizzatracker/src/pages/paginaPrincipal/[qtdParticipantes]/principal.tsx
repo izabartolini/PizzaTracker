@@ -79,7 +79,7 @@ export default function PaginaPrinciapal<T>(key: string, fallbackValue: T) {
     }
 
     return (
-        <div className="flex flex-col justify-between min-h-screen gap-5 bg-branco overflow-y-auto text-black">
+        <div className="flex flex-col justify-between min-h-screen gap-4 bg-branco overflow-y-auto text-black">
             <Nav></Nav>
 
             {pessoas.map((pessoa, idx) => {
@@ -90,7 +90,9 @@ export default function PaginaPrinciapal<T>(key: string, fallbackValue: T) {
             })}
 
             <Adicionar onClick={onAdicionar} ></Adicionar>
+            <div className="mb-5">
             <Mostrar participantes={'a'}></Mostrar>
+            </div>
         </div>
     )
 }
