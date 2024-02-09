@@ -1,21 +1,19 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
 
 interface NomeProps {
-    participantes: string
+    participantes: any;
 }
 export default function Mostrar(props: NomeProps){
-
     const quantidadeParticipantes = props.participantes;
     return(
         <div className={`
-            flex justify-center items-center
+        flex justify-center items-center
         `}>
-            <Link
+            <Link 
                 className="botao p-4 rounded-3xl text-2xl"
                 href={`/paginaPodio/podio`}
             >
-            Mostrar ganhador
+            <button disabled={quantidadeParticipantes == 2}>Mostrar ganhador</button>
             </Link>
         </div>
     )

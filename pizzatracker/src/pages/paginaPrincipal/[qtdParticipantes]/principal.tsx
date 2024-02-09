@@ -52,8 +52,6 @@ export default function PaginaPrinciapal<T>(key: string, fallbackValue: T) {
         if (pessoasQueComeramAMesmaQuantidadeDoCandidatoGanhador.length <= 0) {
             localStorage.setItem("campeao", JSON.stringify(objetoCampeao))
         }
-
-
         return objetoCampeao;
 
     }, [pessoas]);
@@ -91,7 +89,7 @@ export default function PaginaPrinciapal<T>(key: string, fallbackValue: T) {
 
             <Adicionar onClick={onAdicionar} ></Adicionar>
             <div className="mb-5">
-            <Mostrar participantes={'a'}></Mostrar>
+                <Mostrar participantes={1}></Mostrar>
             </div>
         </div>
     )

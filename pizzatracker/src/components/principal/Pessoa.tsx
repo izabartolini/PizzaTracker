@@ -1,7 +1,7 @@
 import Contador from "./Contador";
 import { PessoaEntidade } from "@/pages/paginaPrincipal/[qtdParticipantes]/principal";
 
-export default function Pessoa({ pessoa, onChange }: { pessoa: PessoaEntidade, onChange: Function }) {
+export default function Pessoa({ pessoa, onChange }: {pessoa: PessoaEntidade, onChange: Function }) {
 
     let quantidadeDePizzasComidasPorPessoa = pessoa.qtdComeu;
     return (
@@ -35,7 +35,7 @@ export default function Pessoa({ pessoa, onChange }: { pessoa: PessoaEntidade, o
                 </div>}
             <div className={`
                 h-full
-                flex flex-col justify-between items-end mr-5
+                flex flex-col justify-between items-end mr-7
             `}>
                 <input
                     type="text"
@@ -48,6 +48,7 @@ export default function Pessoa({ pessoa, onChange }: { pessoa: PessoaEntidade, o
                 <Contador value={quantidadeDePizzasComidasPorPessoa || 0} onChange={(novoDadoQtdComeu: number) => {
                     onChange({ ...pessoa, qtdComeu: novoDadoQtdComeu });
                 }} ></Contador>
+                
             </div>
         </div>
     )
