@@ -2,8 +2,10 @@ import Mostrar from "@/components/principal/Mostrar";
 import Nav from "@/components/geral/Nav";
 import Adicionar from "@/components/principal/Adicionar";
 import { useRouter } from "next/router";
-import { ReactElement, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Pessoa from "@/components/principal/Pessoa";
+import ModalComponent from "@/components/modalComponent/modalComponent";
+import EstiloModal from "@/components/modalComponent/modalEstilo";
 
 export class PessoaEntidade {
 
@@ -76,18 +78,45 @@ export default function PaginaPrinciapal<T>(key: string, fallbackValue: T) {
         ])
     }
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
+
     return (
-        <div className="flex flex-col justify-between min-h-screen gap-4 bg-branco overflow-y-auto text-black">
+        <div className="flex flex-col justify-between  min-h-screen gap-4 bg-branco overflow-y-auto text-black">
             <Nav></Nav>
 
             {pessoas.map((pessoa, idx) => {
                 return <Pessoa pessoa={pessoa} onChange={(novosDadosPessoa: PessoaEntidade) => {
                     pessoas[idx] = novosDadosPessoa;
                     setPessoas([...pessoas]);
-                }} ></Pessoa>;
-            })}
-
+                }}
+                    onDelete={(index: number) => {
+                        const novaListaPessoas = [...pessoas];
+                        novaListaPessoas.splice(index, 1);
+                        setPessoas(novaListaPessoas);
+                    }}
+                    index={idx}
+                    />;
+                })}
             <Adicionar onClick={onAdicionar} ></Adicionar>
+
+            <div className="flex justify-center">
+                <button onClick={openModal} className="botao h-16 w-60 rounded-3xl m-3 mt-7 flex justify-center items-center font-medium text-2xl">Compartilhar</button>
+            </div>
+
+
+            <ModalComponent isOpen={isModalOpen} closeModal={closeModal}>
+                <EstiloModal funcaoFechar={closeModal}></EstiloModal >
+            </ModalComponent>
+
             <div className="mb-5">
                 <Mostrar participantes={1}></Mostrar>
             </div>
