@@ -23,7 +23,7 @@ export default function Pessoa({ pessoa, onChange, onDelete, index }: { pessoa: 
                     <div className="flex justify-start ">
                         <img
                             className="w-28 h-24"
-                            src={`/images/pizzas ${quantidadeDePizzasComidasPorPessoa}.png`}
+                            src={`/images/pizza${quantidadeDePizzasComidasPorPessoa}.png`}
                         />
                     </div>}
 
@@ -33,7 +33,7 @@ export default function Pessoa({ pessoa, onChange, onDelete, index }: { pessoa: 
                     >
                         <img
                             className="w-28 h-24"
-                            src={`/images/pizzas 8.png`}
+                            src={`/images/pizza8.png`}
                         />
 
                         <div className="flex justify-center items-center bg-blue-400 rounded-full w-7 h-7">

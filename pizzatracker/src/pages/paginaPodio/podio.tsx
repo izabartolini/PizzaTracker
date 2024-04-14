@@ -16,20 +16,24 @@ export default function PaginaCampeao() {
 
 
   return (
-    <div className="flex flex-col min-h-screen  bg-white items-center">
+    <div className="flex flex-col min-h-screen  bg-white ">
 
       <Nav></Nav>
 
-      {resultado?.pessoas && <Podio pessoas={resultado.pessoas} />}
+      <div className="flex flex-col min-h-screen items-center gap-14">
 
-      <Link
-        className="botao h-16 w-40 rounded-3xl m-3 flex justify-center items-center font-medium text-2xl"
-        href={`/`}
-      >
-        Voltar
-      </Link>
 
-        
+        {resultado?.pessoas && <Podio pessoas={resultado.pessoas} />}
+
+        <Link
+          className="botao h-16 w-40 rounded-3xl m-3 flex justify-center items-center font-medium text-2xl"
+          href={`/`}
+        >
+          Voltar
+        </Link>
+      </div>
+
+
     </div>
   )
 }

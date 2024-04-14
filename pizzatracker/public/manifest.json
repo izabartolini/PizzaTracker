@@ -1,0 +1,10 @@
+{
+    "name": "Pizza Tracker",
+    "short_name": "Pizza",
+    "theme_color": "#f69435",
+    "background_color": "#ffffff",
+    "display": "browser",
+    "orientation": "portrait",
+    "scope": "/",
+    "start_url": "/"
+}

@@ -3,7 +3,7 @@ export default function Contador({ value, onChange } : { value: number, onChange
     return (
         <div className="flex gap-3 mb-2
         text-3xl items-center ">
-            <button disabled={value == 0} className='botao w-12 h-9 border-2 border-black flex justify-center items-center'
+            <button disabled={value == 0} className='botao w-12 h-9 border-2 border-black flex justify-center items-end'
                 onClick={() => onChange(value - 1)}
             >
                 -</button>
@@ -12,7 +12,7 @@ export default function Contador({ value, onChange } : { value: number, onChange
                 {value}
             </span>
 
-            <button className='botao  w-12 h-9 border-2 border-black flex justify-center items-center'
+            <button className='botao  w-12 h-9 border-2 border-black flex justify-center items-end'
                 onClick={() => onChange(value + 1)}
             >
                 +</button>
